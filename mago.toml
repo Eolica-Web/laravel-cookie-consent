@@ -1,0 +1,45 @@
+#:schema https://mago.carthage.software/1.59.0/schema.json
+version = "1"
+php-version = "8.5"
+
+[source]
+paths = ["lang", "routes", "src", "tests"]
+includes = ["vendor"]
+
+[source.glob]
+literal-separator = true
+
+[analyzer]
+find-unused-expressions = true
+find-unused-definitions = true
+find-overly-wide-return-types = true
+analyze-dead-code = true
+check-throws = false
+check-missing-override = false
+find-unused-parameters = true
+check-missing-type-hints = true
+check-closure-missing-type-hints = true
+check-arrow-function-missing-type-hints = true
+enforce-class-finality = true
+require-api-or-internal = false
+check-experimental = true
+strict-list-index-checks = true
+strict-array-index-existence = false
+no-boolean-literal-comparison = true
+trust-existence-checks = false
+check-use-statements = true
+check-property-initialization = true
+allow-side-effects-in-conditions = false
+
+[linter.rules]
+no-boolean-flag-parameter = { enabled = false }
+no-else-clause = { enabled = false }
+function-name = { "either" = true }
+cyclomatic-complexity = { enabled = false }
+halstead = { enabled = false }
+kan-defect = { enabled = false }
+too-many-methods = { enabled = false }
+too-many-properties = { enabled = false }
+no-error-control-operator = { enabled = false }
+excessive-parameter-list = { enabled = false }
+prefer-arrow-function = { enabled = false }

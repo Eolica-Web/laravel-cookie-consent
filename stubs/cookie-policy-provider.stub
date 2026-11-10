@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use Eolica\LaravelCookieConsent\Category;
+use Eolica\LaravelCookieConsent\CookiePolicy;
+use Eolica\LaravelCookieConsent\CookiePolicyProvider as BaseCookiePolicyProvider;
+
+class {{ class }} extends BaseCookiePolicyProvider
+{
+    public function policy(CookiePolicy $policy): CookiePolicy
+    {
+        return $policy
+            ->necessary(fn (Category $category) => $category->session()->csrf());
+    }
+}

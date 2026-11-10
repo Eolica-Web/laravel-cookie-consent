@@ -1,0 +1,13 @@
+# Composer
+vendor/
+composer.lock
+
+# PHPUnit
+.phpunit.cache/
+
+# Node
+node_modules/
+package-lock.json
+
+# Pest
+tests/Browser/Screenshots/

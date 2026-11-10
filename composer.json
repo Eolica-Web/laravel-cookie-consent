@@ -1,0 +1,106 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "eolica/laravel-cookie-consent",
+    "description": "Cookie consent management for Laravel",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "cookies",
+        "consent",
+        "gdpr",
+        "laravel"
+    ],
+    "authors": [
+        {
+            "name": "David Llobell",
+            "email": "dllobell@eolicadigital.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/Eolica-Web/laravel-cookie-consent",
+    "require": {
+        "php": "^8.5",
+        "illuminate/console": "^13.0",
+        "illuminate/container": "^13.0",
+        "illuminate/contracts": "^13.0",
+        "illuminate/cookie": "^13.0",
+        "illuminate/filesystem": "^13.0",
+        "illuminate/http": "^13.0",
+        "illuminate/support": "^13.0",
+        "illuminate/view": "^13.0",
+        "nesbot/carbon": "^3.8.4",
+        "symfony/http-foundation": "^7.4 || ^8.0",
+        "symfony/uid": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "carthage-software/mago": "^1.59",
+        "laravel/pao": "^1.0",
+        "orchestra/testbench": "^11.0",
+        "pestphp/pest": "^5.0",
+        "pestphp/pest-plugin-browser": "^5.2",
+        "phpstan/phpstan": "^2.0",
+        "rector/rector": "^2.0",
+        "seophp/head": "^0.1.1",
+        "symfony/var-dumper": "^8.0"
+    },
+    "suggest": {
+        "seophp/head": "Required to render the cookie consent assets with the head plugin (^0.1.1)."
+    },
+    "autoload": {
+        "psr-4": {
+            "Eolica\\LaravelCookieConsent\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eolica\\LaravelCookieConsent\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Eolica\\LaravelCookieConsent\\CookieConsentServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "analyse": [
+            "phpstan analyse"
+        ],
+        "fmt": [
+            "mago format"
+        ],
+        "fmt:check": [
+            "mago format --check"
+        ],
+        "lint": [
+            "mago lint --fix --format-after-fix"
+        ],
+        "lint:check": [
+            "mago lint"
+        ],
+        "refactor": [
+            "rector"
+        ],
+        "test": [
+            "pest --colors=always --parallel"
+        ],
+        "test:browser": [
+            "pest --colors=always --testsuite=browser"
+        ],
+        "test:coverage": [
+            "@putenv XDEBUG_MODE=coverage",
+            "pest --colors=always --parallel --coverage --min=100"
+        ],
+        "test:mutate": [
+            "@putenv XDEBUG_MODE=coverage",
+            "pest --colors=always --parallel --mutate --covered-only --min=100"
+        ]
+    }
+}

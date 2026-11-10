@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.5]
+        dependencies: [lowest, highest]
+
+    name: PHP ${{ matrix.php }} (${{ matrix.dependencies }} dependencies)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v4
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+
+      - name: Format check
+        if: matrix.dependencies == 'highest'
+        run: composer fmt:check
+
+      - name: Lint check
+        if: matrix.dependencies == 'highest'
+        run: composer lint:check
+
+      - name: Analyse
+        if: matrix.dependencies == 'highest'
+        run: composer analyse
+
+      - name: Test
+        if: matrix.dependencies == 'lowest'
+        run: composer test
+
+      - name: Test with coverage
+        if: matrix.dependencies == 'highest'
+        run: composer test:coverage
+
+      - name: Setup Node
+        if: matrix.dependencies == 'highest'
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install Node dependencies
+        if: matrix.dependencies == 'highest'
+        run: npm install
+
+      - name: Get Playwright version
+        if: matrix.dependencies == 'highest'
+        id: playwright
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        if: matrix.dependencies == 'highest'
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Install Playwright browsers
+        if: matrix.dependencies == 'highest'
+        run: npx playwright install --only-shell chromium
+
+      - name: Browser tests
+        if: matrix.dependencies == 'highest'
+        run: composer test:browser
